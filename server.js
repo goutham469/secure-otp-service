@@ -4,6 +4,8 @@ const { stderr } = require('process')
 const app=exp()
 const {exec} = require('child_process')
 
+require("dotenv").config()
+
 app.use(exp.json())
 
 app.get('',(req,res)=>{
@@ -13,7 +15,10 @@ app.get('',(req,res)=>{
 app.get('/getOtp/:email',(req,res)=>{
     console.log(req.params.email)
 
-    const pythonScript = `python otp.py ${req.params.email}`;
+    let SENDER_MAIL = process.env.SENDER_MAIL;
+    let SENDER_KEY = process.env.SENDER_KEY;
+
+    const pythonScript = `python otp.py ${req.params.email} ${SENDER_MAIL} ${SENDER_KEY}`;
 
     exec(pythonScript,(error,stdout,stderr)=>{
         if(error)
@@ -22,7 +27,9 @@ app.get('/getOtp/:email',(req,res)=>{
         }
         else
         {
-            res.send({message:`email received : ${req.params.email}`,paylod:stdout.substring(0,6),status:"T"})
+            console.log(SENDER_MAIL)
+            console.log(SENDER_KEY)
+            res.send({message:`email received : ${req.params.email}`,paylod:stdout,status:"T"})
         }
     })
     

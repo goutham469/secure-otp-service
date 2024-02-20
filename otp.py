@@ -1,21 +1,21 @@
 import random
 import sys
-import os
+# import os
 
 
 
-def sendMail(result,email):
+def sendMail(result,email,sender_email,password):
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
 
-    from dotenv import load_dotenv,dotenv_values
-    load_dotenv()
+    # from dotenv import load_dotenv,dotenv_values
+    # load_dotenv()
 
 
-    sender_email = str(os.getenv("SENDER_MAIL"))
+    # sender_email = str(os.getenv("SENDER_MAIL"))
     receiver_email = email[6:len(email)]
-    password = str(os.getenv("SENDER_KEY"))
+    # password = str(os.getenv("SENDER_KEY"))
 
     # Create message container
     message = MIMEMultipart()
@@ -37,7 +37,7 @@ def sendMail(result,email):
         server.login(sender_email, password)
         # Send email
         server.sendmail(sender_email, receiver_email, message.as_string())
-        print("Email sent successfully!")
+        #print("Email sent successfully!")
     except Exception as e:
         print("Failed to send email.")
         errorsInPythonScript.append(str(e))
@@ -51,14 +51,18 @@ def sendMail(result,email):
     return errorsInPythonScript
 
 
-def generate_otp(email):
+def generate_otp(email,sender_email,password):
     result = random.randint(100000,999999)
     print(result)
     l=[]
     l.append(result)
 
-    l.append(sendMail(result,email))
+    l.append(sendMail(result,email,sender_email,password))
     return(l)
 
 email=sys.argv[1]
-generate_otp(email)
+sender_email = sys.argv[2]
+password = str(sys.argv[3]+sys.argv[4]+sys.argv[5]+sys.argv[6])
+#print(sender_email)
+#print(password)
+generate_otp(email,sender_email,password)
