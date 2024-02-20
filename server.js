@@ -23,7 +23,7 @@ app.get('/getOtp/:email',(req,res)=>{
     exec(pythonScript,(error,stdout,stderr)=>{
         if(error)
         {
-            res.send({message:`email received : ${req.params.email}`,paylod:0,status:"F"})
+            res.send({message:`email received : ${req.params.email}`,paylod:0,status:"F",errorMessage:error})
         }
         else
         {
