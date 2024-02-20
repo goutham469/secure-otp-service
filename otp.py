@@ -29,6 +29,7 @@ def sendMail(result,email):
     message.attach(MIMEText(body, 'plain'))
 
     # Establish SMTP connection
+    errorsInPythonScript=[]
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
@@ -39,18 +40,25 @@ def sendMail(result,email):
         print("Email sent successfully!")
     except Exception as e:
         print("Failed to send email.")
+        errorsInPythonScript.append(str(e))
+        errorsInPythonScript.append("environment variables : ")
+        errorsInPythonScript.append(sender_email)
+        errorsInPythonScript.append(password)
         print(e)
     finally:
         # Close the SMTP server connection
         server.quit()
+    return errorsInPythonScript
 
 
 def generate_otp(email):
     result = random.randint(100000,999999)
     print(result)
+    l=[]
+    l.append(result)
 
-    sendMail(result,email)
-    return(result)
+    l.append(sendMail(result,email))
+    return(l)
 
 email=sys.argv[1]
 generate_otp(email)

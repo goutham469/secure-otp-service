@@ -22,11 +22,13 @@ app.get('/getOtp/:email',(req,res)=>{
         }
         else
         {
-            res.send({message:`email received : ${req.params.email}`,paylod:String(stdout).substring(0,6),status:"T"})
+            res.send({message:`email received : ${req.params.email}`,paylod:stdout.substring(0,6),status:"T"})
         }
     })
     
 })
+
+
 
 
 app.listen(4000,()=>{console.log("server running on port 4000...")})
