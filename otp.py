@@ -20,7 +20,7 @@ def sendMail(result, email, sender_email, password):
     body = """\
     <html>
         <body>
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNfBuPO5zmKvQMyV8n6sk2KyIRXL_E8V2hUw&usqp=CAU" width="100px"></img>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNfBuPO5zmKvQMyV8n6sk2KyIRXL_E8V2hUw&usqp=CAU" width="150px"></img>
             <br></br>
             <p>Dear User,</p>
             <p>Thank you for using our secure OTP service. Your one-time password (OTP) is: <span style="font-size: 30px; color: #FF5733;">{}</span></p>
