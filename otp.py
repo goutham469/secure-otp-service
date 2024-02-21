@@ -4,51 +4,54 @@ import sys
 
 
 
-def sendMail(result,email,sender_email,password):
+def sendMail(result, email, sender_email, password):
     import smtplib
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
 
-    # from dotenv import load_dotenv,dotenv_values
-    # load_dotenv()
-
-
-    # sender_email = str(os.getenv("SENDER_MAIL"))
-    receiver_email = email[6:len(email)]
-    # password = str(os.getenv("SENDER_KEY"))
-
     # Create message container
     message = MIMEMultipart()
     message['From'] = sender_email
-    message['To'] = receiver_email
+    message['To'] = email
 
-    message['Subject'] = 'OTP from secure-otp-service\n'
+    message['Subject'] = 'OTP from secure-otp-service'
 
-    # Email content
-    body = str(result)
-    message.attach(MIMEText(body, 'plain'))
+    # Craft the HTML email body
+    body = """\
+    <html>
+        <body>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNfBuPO5zmKvQMyV8n6sk2KyIRXL_E8V2hUw&usqp=CAU" width="100px"></img>
+            <br></br>
+            <p>Dear User,</p>
+            <p>Thank you for using our secure OTP service. Your one-time password (OTP) is: <span style="font-size: 30px; color: #FF5733;">{}</span></p>
+            <p>This OTP is required to access certain features or complete a transaction securely.</p>
+            <p>If you did not request this OTP or have any concerns, please contact our support team <a> uppinurigouthamreddy@gmail.com </a>immediately.</p>
+            <p>Best regards,<br>Your Secure OTP Service Team</p>
+        </body>
+    </html>
+    """.format(result)
+
+    message.attach(MIMEText(body, 'html'))
 
     # Establish SMTP connection
-    errorsInPythonScript=[]
+    errorsInPythonScript = []
     try:
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
         # Login to the server
         server.login(sender_email, password)
         # Send email
-        server.sendmail(sender_email, receiver_email, message.as_string())
-        #print("Email sent successfully!")
+        server.sendmail(sender_email, email, message.as_string())
+        print("Email sent successfully!")
     except Exception as e:
         print("Failed to send email.")
         errorsInPythonScript.append(str(e))
-        errorsInPythonScript.append("environment variables : ")
-        errorsInPythonScript.append(sender_email)
-        errorsInPythonScript.append(password)
         print(e)
     finally:
         # Close the SMTP server connection
         server.quit()
     return errorsInPythonScript
+
 
 
 def generate_otp(email,sender_email,password):
